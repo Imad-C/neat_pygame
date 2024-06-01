@@ -127,7 +127,7 @@ def eval_genomes(genomes, config):
 
 def move_checkpoint(
         source=os.getcwd(),
-        relative_destination='neat_checkpoints',
+        relative_destination='neat_outputs',
         file_name='neat-checkpoint-'
         ):
     
@@ -151,7 +151,7 @@ def run_neat(config, checkpoint: str=None):
 
     #initialising population, or using existing checkpoint
     if checkpoint:
-        checkpoint_path = os.path.join(LOCAL_DIR, 'neat_checkpoints/' + checkpoint)
+        checkpoint_path = os.path.join(LOCAL_DIR, 'neat_outputs/' + checkpoint)
         pop = neat.Checkpointer.restore_checkpoint(checkpoint_path)
 
     else:
@@ -171,11 +171,11 @@ def run_neat(config, checkpoint: str=None):
 
     #moving all checkpoints and best.pickle
     move_checkpoint()      
-    move_checkpoint(relative_destination='neat_io', file_name='best')
+    move_checkpoint(file_name='best')
 
 
 def test_ai(config, winner_name: str):
-    winner_path = os.path.join(LOCAL_DIR, 'neat_io/' + winner_name)
+    winner_path = os.path.join(LOCAL_DIR, 'neat_outputs/' + winner_name)
     with open(winner_path + '.pickle', 'rb') as f:
         winner = pickle.load(f)
 
@@ -184,11 +184,11 @@ def test_ai(config, winner_name: str):
 
 
 if __name__ == "__main__":
-    config_path = os.path.join(LOCAL_DIR, 'neat_io/config.txt')
+    config_path = os.path.join(LOCAL_DIR, 'config.txt')
 
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_path)
     
-    # run_neat(config, 'neat-checkpoint-7')
-    test_ai(config, 'best')
+    run_neat(config)
+    # test_ai(config, 'best')
