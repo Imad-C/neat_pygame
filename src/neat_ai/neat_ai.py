@@ -1,6 +1,6 @@
+import argparse
 import neat
 import os
-from pathlib import Path
 import pickle
 import pygame
 import shutil
@@ -190,5 +190,17 @@ if __name__ == "__main__":
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_path)
     
-    run_neat(config)
-    # test_ai(config, 'best')
+    parser = argparse.ArgumentParser(description='Controls functionality of the NEAT AI.')
+    parser.add_argument('functionality', metavar='functionality', type=str, help='Either train or test an AI.')  
+    args = parser.parse_args()
+
+    functionality = args.functionality
+
+    if functionality == 'train':
+        run_neat(config)
+    elif functionality == 'test':
+        test_ai(config, 'best')
+    elif functionality == 'test_example':
+        test_ai(config, 'best_example')
+    else: 
+        print('Usage: src.neat_ai.neat_ai <train|test|test_example>')
