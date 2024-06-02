@@ -36,6 +36,22 @@ class NeatGame(MainGame):
         
         self.player = Player(self, self.player_speed, move_allowed=False)
         self.pop_no = pop_no
+    
+
+    def move_player(self, player: Player, direction=Direction.NONE):
+        '''
+        Allow the game to move the player (so it can be controlled by NEAT)
+        '''
+        if player.check_move():
+            if direction == Direction.LEFT:
+                player.rect.x -= Settings.BLOCK_SIZE.value
+                player.restrict_move()
+            if direction == Direction.RIGHT:
+                player.rect.x += Settings.BLOCK_SIZE.value
+                player.restrict_move()  
+            if direction == Direction.NONE:
+                pass   
+        else: pass
 
 
     def get_game_state(self):

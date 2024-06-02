@@ -1,10 +1,11 @@
+import argparse
 import enum
 from math import hypot
 import os
 import pygame; pygame.init()
 import random
 
-from src.my_game import Base, Food, Player, Settings, Direction
+from src.my_game import Base, Food, Player, Settings, Direction, PlayerAI
 
 
 class MainGame:
@@ -13,7 +14,7 @@ class MainGame:
             win_height=Settings.WIN_HEIGHT.value,
             food_speed=Settings.SPEED.value/8,
             food_spawn_speed=Settings.SPEED.value*4,
-            player_speed=Settings.SPEED.value/8
+            player_speed=Settings.SPEED.value/16
             ) -> None:
         
         #speed of gameplay
@@ -61,17 +62,17 @@ class MainGame:
                 self.food_instances.remove(food)
     
 
-    def move_player(self, player: Player, direction=Direction.NONE):
-        if player.check_move():
-            if direction == Direction.LEFT:
-                player.rect.x -= Settings.BLOCK_SIZE.value
-                player.restrict_move()
-            if direction == Direction.RIGHT:
-                player.rect.x += Settings.BLOCK_SIZE.value
-                player.restrict_move()  
-            if direction == Direction.NONE:
-                pass   
-        else: pass
+    # def move_player(self, player: Player, direction=Direction.NONE):
+    #     if player.check_move():
+    #         if direction == Direction.LEFT:
+    #             player.rect.x -= Settings.BLOCK_SIZE.value
+    #             player.restrict_move()
+    #         if direction == Direction.RIGHT:
+    #             player.rect.x += Settings.BLOCK_SIZE.value
+    #             player.restrict_move()  
+    #         if direction == Direction.NONE:
+    #             pass   
+    #     else: pass
 
     
     def get_perc_score(self, food: Food):
@@ -124,7 +125,7 @@ class MainGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: pygame.quit(); os.sys.exit()
             
-            self.move_player(self.player)
+            # self.move_player(self.player)
             self.spawn_food()
             self.update()
 
@@ -132,4 +133,15 @@ class MainGame:
     
 
 if __name__ == "__main__":
-    MainGame().run()
+
+    parser = argparse.ArgumentParser(description='Runs the main game manually or with AI')
+    parser.add_argument('-a', '--ai_controlled', action='store_true', help='AI controlled.', required=False)  
+    args = parser.parse_args()
+
+    game = MainGame()
+
+    if args.ai_controlled:
+        game.player = PlayerAI(game)
+
+    game.run()
+    # MainGame().run()

@@ -64,3 +64,33 @@ class Player(pygame.sprite.Sprite):
         self.move()
         pygame.draw.rect(self.game.screen, Colour.BLUE.value, self.rect)
         pygame.draw.rect(self.game.screen, Colour.LIGHT_BLUE.value, self.rect, 2) #outline
+
+
+
+class PlayerAI(Player):
+    '''
+    This is a hard coded AI to compare against the NEAT AI.
+    '''
+    def __init__(self, game, move_speed=Settings.SPEED.value / 16, move_allowed=True) -> None:
+        super().__init__(game, move_speed, move_allowed)
+
+
+    def get_food_x(self):
+        if self.game.food_instances:
+            return self.game.food_instances[0].rect.x
+        else: return Settings.WIN_WIDTH.value/2
+
+
+    def get_input(self):
+        '''
+        Overwriting manual input with an AI
+        '''
+        food_x = self.get_food_x()
+        if self.rect.x > food_x:
+            self.direction = Direction.LEFT
+        elif self.rect.x < food_x:
+            self.direction = Direction.RIGHT
+        else: #food directly above
+            self.direction = Direction.NONE
+
+
