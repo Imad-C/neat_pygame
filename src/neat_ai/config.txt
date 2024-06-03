@@ -15,9 +15,9 @@ survival_threshold = 0.2
 
 [DefaultGenome]
 # node activation options
-activation_default      = relu
+activation_default      = random
 activation_mutate_rate  = 1.0
-activation_options      = relu
+activation_options      = square
 
 # node aggregation options
 aggregation_default     = sum

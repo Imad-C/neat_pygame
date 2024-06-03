@@ -60,19 +60,6 @@ class MainGame:
                 self.score += self.get_perc_score(food) + food.miss_score
                 self.missed += food.miss_counter
                 self.food_instances.remove(food)
-    
-
-    # def move_player(self, player: Player, direction=Direction.NONE):
-    #     if player.check_move():
-    #         if direction == Direction.LEFT:
-    #             player.rect.x -= Settings.BLOCK_SIZE.value
-    #             player.restrict_move()
-    #         if direction == Direction.RIGHT:
-    #             player.rect.x += Settings.BLOCK_SIZE.value
-    #             player.restrict_move()  
-    #         if direction == Direction.NONE:
-    #             pass   
-    #     else: pass
 
     
     def get_perc_score(self, food: Food):
@@ -87,7 +74,7 @@ class MainGame:
             return 0
         elif 0 < distance < 10:
             # print(f'distance: {distance}, score: {food.collect_score - distance}, game_score: {self.score}')
-            return food.collect_score - distance
+            return food.collect_score - round(distance / 2)
         else: 
             # print(f'distance: {distance}, score: {food.collect_score} ,game_score: {self.score}')
             return food.collect_score

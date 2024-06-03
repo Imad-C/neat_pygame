@@ -92,27 +92,31 @@ class NeatGameAI():
 
             if any([
                 self.lose_condition(
-                    genome, game_info, game_info.missed >= 6),
+                    genome, game_info, self.player, game_info.missed >= 6),
                 self.lose_condition(
-                    genome, game_info, game_info.score >= 1000),
+                    genome, game_info, self.player, game_info.score >= 1000),
                 self.lose_condition(
-                    genome, game_info, self.player.rect.x <= 0, cost=50),
+                    genome, game_info, self.player, self.player.rect.x <= 0, cost=30),
                 self.lose_condition(
-                    genome, game_info, self.player.rect.x >= Settings.WIN_WIDTH.value, cost=50)
+                    genome, game_info, self.player, self.player.rect.x >= Settings.WIN_WIDTH.value, cost=30)
                 ]):
                 break
 
 
-    def lose_condition(self, genome, game_info, condition, cost=0):
+    def lose_condition(self, genome, game_info, player, condition, cost=0):
         if condition:
-            self.calculate_fitness(genome, game_info, cost)
+            self.calculate_fitness(genome, game_info, player, cost)
             return True
         else: return False
 
 
-    def calculate_fitness(self, genome, game_info, cost=0):
+    def calculate_fitness(self, genome, game_info, player, cost=0):
+        if player.rect.x == Settings.WIN_WIDTH.value/2:
+            #punish not moving
+            genome.fitness -= 30
         genome.fitness += game_info.score
         genome.fitness -= cost
+        print(genome.fitness)
 
 
 def eval_genomes(genomes, config):
