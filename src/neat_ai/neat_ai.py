@@ -93,7 +93,7 @@ class NeatGameAI():
             if any([
                 self.lose_condition(
                     genome, game_info, self.player, game_info.missed >= 6),
-                self.lose_condition(
+                self.lose_condition( #(actually a win condition, but same process)
                     genome, game_info, self.player, game_info.score >= 1000),
                 ]):
                 break
