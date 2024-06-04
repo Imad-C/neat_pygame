@@ -61,6 +61,13 @@ class MainGame:
                 self.missed += food.miss_counter
                 self.food_instances.remove(food)
 
+
+    def tele_walls(self, player: Player):
+        if player.rect.x < 0:
+            player.rect.x = Settings.WIN_WIDTH.value - Settings.BLOCK_SIZE.value
+        elif player.rect.x > Settings.WIN_WIDTH.value - Settings.BLOCK_SIZE.value:
+            player.rect.x = 0
+
     
     def get_perc_score(self, food: Food):
         '''
@@ -100,6 +107,7 @@ class MainGame:
     def update(self):
         self.base.update()
         self.player.update()
+        self.tele_walls(self.player)
         self.spawn_food()
         self.update_food()
         self.draw_game_info()
