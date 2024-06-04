@@ -95,10 +95,6 @@ class NeatGameAI():
                     genome, game_info, self.player, game_info.missed >= 6),
                 self.lose_condition(
                     genome, game_info, self.player, game_info.score >= 1000),
-                self.lose_condition(
-                    genome, game_info, self.player, self.player.rect.x <= 0, cost=30),
-                self.lose_condition(
-                    genome, game_info, self.player, self.player.rect.x >= Settings.WIN_WIDTH.value, cost=30)
                 ]):
                 break
 
